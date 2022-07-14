@@ -120,7 +120,7 @@ const FormUser = ({buttonColor, handleUserAdded, handleUserUpdated, buttonSubmit
           console.log(err);
         });
       }
-    }, [userID])
+    }, [])
   return (
     <Form className={formClassName} onSubmit={handleSubmit} max>
         <Form.Input

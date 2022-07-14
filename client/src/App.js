@@ -47,12 +47,12 @@ function App() {
          
       }
       fetchUsers();
-      socket = io('http://localhost:5000');
+      socket = io.connect('http://localhost:3000');
       socket.on('add', data => handleUserAdded(data));
       socket.on('update', data => handleUserUpdated(data));
       socket.on('delete', data => handleUserDeleted(data));
     }     
-    , []);
+    , [socket]);
   return (
     <div className='App'>
     <Container>

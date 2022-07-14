@@ -3,7 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const {Server} = require('socket.io');
+const socket = require('socket.io');
 const connectDB = require('./config/db');
 const fileupload = require("express-fileupload");
 const app = express();
@@ -50,20 +50,16 @@ const server = app.listen(port, () => {
 });
 
 // Set up socket.io
-const io = new Server(server, {
-  cors: {
-    origin: 'http://localhost:3000'
-  }
-})
+const io = socket(server);
 
 
 io.on('connection', (socket) => {
  
   console.log(`Socket ${socket.id} connected.`);
 
-  socket.on('add', data => socket.broadcast.emit('add', data));
-  socket.on('update', data => socket.broadcast.emit('update', data));
-  socket.on('delete', data => socket.broadcast.emit('delete', data));
+  socket.on('add', data => io.socket.emit('add', data));
+  socket.on('update', data => io.socket.emit('update', data));
+  socket.on('delete', data => io.socket.emit('delete', data));
 
   socket.on('disconnect', () => {
    
